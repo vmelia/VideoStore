@@ -47,7 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
+    <Compile Include="RentalBase.cs" />
+    <Compile Include="ChildrensMovieRental.cs" />
+    <Compile Include="NewMovieRental.cs" />
+    <Compile Include="RegularMovieRental.cs" />
+    <Compile Include="Statement.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rental.cs" />

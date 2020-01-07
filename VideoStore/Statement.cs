@@ -2,23 +2,29 @@
 
 namespace VideoStore
 {
-	public class Customer
+	public class Statement
 	{
-		public Customer(string name)
+        private readonly string _customerName;
+        private readonly IList<Rental> _rentals = new List<Rental>();
+
+		public Statement(string customerName)
 		{
-			_name = name;
+            _customerName = customerName;
 		}
 
-		public void AddRental(Rental rental)
+        public void AddRental(Rental rental)
 		{
 			_rentals.Add(rental);
 		}
 
-		public string Statement()
+        public double TotalAmount { get; private set; }
+        public int FrequentRenterPoints { get; private set; }
+
+		public string GenerateStatement()
 		{
-			double totalAmount = 0;
-			int frequentRenterPoints = 0;
-			string result = "Rental Record for " + _name + "\n";
+			TotalAmount = 0;
+			FrequentRenterPoints = 0;
+			string result = "Rental Record for " + _customerName + "\n";
 
 			foreach(Rental rental in _rentals)
 			{
@@ -42,24 +48,21 @@ namespace VideoStore
 						break;
 				}
 
-				frequentRenterPoints++;
+				FrequentRenterPoints++;
 
 				if (rental.Movie.PriceCode == Movie.NewRelease
 				    && rental.DaysRented > 1)
-					frequentRenterPoints++;
+					FrequentRenterPoints++;
 
 				result += "\t" + rental.Movie.Title + "\t"
 				          + thisAmount.ToString("0.0") + "\n";
-				totalAmount += thisAmount;
+				TotalAmount += thisAmount;
 			}
 
-			result += "You owed " + totalAmount.ToString("0.0") + "\n";
-			result += "You earned " + frequentRenterPoints + " frequent renter points\n";
+			result += "You owed " + TotalAmount.ToString("0.0") + "\n";
+			result += "You earned " + FrequentRenterPoints + " frequent renter points\n";
 
 			return result;
 		}
-
-		private readonly string _name;
-		private readonly IList<Rental> _rentals = new List<Rental>();
-	}
+    }
 }
